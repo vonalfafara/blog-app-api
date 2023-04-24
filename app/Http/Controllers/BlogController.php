@@ -28,9 +28,9 @@ class BlogController extends Controller
     public function search(Request $request) {
         $order = $request->query('order') ? $request->query('order') : 'desc';
         $search_term = '%' . $request->query('term') . '%';
-        return Blog::where('title', 'like', $search_term)
-                    ->orWhere('subtitle', 'like', $search_term)
-                    ->orWhere('body', 'like', $search_term)
+        return Blog::where('title', 'ILIKE', $search_term)
+                    ->orWhere('subtitle', 'ILIKE', $search_term)
+                    ->orWhere('body', 'ILIKE', $search_term)
                     ->orderBy('created_at', $order)
                     ->paginate();
     }
