@@ -22,7 +22,7 @@ class CommentFactory extends Factory
         return [
             'user_id' => fake()->randomElement(User::pluck('id')),
             'blog_id' => fake()->randomElement(Blog::pluck('id')),
-            'body' => fake()->realText($maxNbChars = 255),
+            'body' => fake()->realText($maxNbChars = 100),
             'created_at' => $datetime,
             'updated_at' => $datetime
         ];

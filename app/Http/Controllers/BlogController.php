@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Blog;
+use App\Http\Resources\BlogResource;
+use App\Http\Resources\BlogShowResource;
 
 class BlogController extends Controller
 {
@@ -14,9 +16,10 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         $order = $request->query('order') ? $request->query('order') : 'desc';
-        return Blog::select('user_id', 'title', 'subtitle', 'created_at', 'updated_at')
-                    ->orderBy('created_at', $order)
-                    ->paginate();
+
+        return BlogResource::collection(Blog::select('user_id', 'title', 'subtitle', 'created_at', 'updated_at')
+            ->orderBy('created_at', $order)
+            ->paginate());
     }
 
     /**
@@ -61,10 +64,8 @@ class BlogController extends Controller
     public function show(string $id)
     {
         $blog = Blog::find($id);
-        $blog->user;
-        $blog->comments;
         
-        return response($blog, 200);
+        return response(BlogShowResource::make($blog), 200);
     }
 
     /**
