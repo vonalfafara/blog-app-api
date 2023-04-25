@@ -28,7 +28,7 @@ class ImageController extends Controller
 
         if (file_exists($imagePath)) {
            $image = file_get_contents($imagePath);
-           return response($image, 200)->header('Content-Type', 'image');
+           return response($image, 200)->header('Content-Type', 'image/jpg');
         }
         return response()->json(['message' => 'Image not found.'], 404);
     }

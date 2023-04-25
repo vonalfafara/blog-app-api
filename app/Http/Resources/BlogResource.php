@@ -16,14 +16,14 @@ class BlogResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name
+            ],
             'title' => $this->title,
             'subtitle' => $this->subtitle,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'user' => [
-                'id' => $this->user->id,
-                'name' => $this->user->name
-            ]
         ];
     }
 }

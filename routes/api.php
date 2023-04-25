@@ -34,4 +34,5 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/upload', [ImageController::class, 'upload']);
     Route::resource('comments', CommentController::class);
     Route::put('/users/profile', [UserController::class, 'updateProfilePicture']);
+    Route::get('/blogs/user/{id}', [BlogController::class, 'getUserBlogs']);
 });

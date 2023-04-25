@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use App\Models\Blog;
 use App\Http\Resources\BlogResource;
 use App\Http\Resources\BlogShowResource;
+use App\Http\Resources\UserBlogResource;
 
 class BlogController extends Controller
 {
@@ -17,9 +18,9 @@ class BlogController extends Controller
     {
         $order = $request->query('order') ? $request->query('order') : 'desc';
 
-        return BlogResource::collection(Blog::select('user_id', 'title', 'subtitle', 'created_at', 'updated_at')
+        return BlogResource::collection(Blog::select('id', 'user_id', 'title', 'subtitle', 'created_at', 'updated_at')
             ->orderBy('created_at', $order)
-            ->paginate());
+            ->paginate(5));
     }
 
     /**
@@ -28,11 +29,9 @@ class BlogController extends Controller
     public function search(Request $request) {
         $order = $request->query('order') ? $request->query('order') : 'desc';
         $search_term = '%' . $request->query('term') . '%';
-        return Blog::where('title', 'ILIKE', $search_term)
-                    ->orWhere('subtitle', 'ILIKE', $search_term)
-                    ->orWhere('body', 'ILIKE', $search_term)
-                    ->orderBy('created_at', $order)
-                    ->paginate();
+        return BlogResource::collection(Blog::where('title', 'LIKE', $search_term)
+        ->orderBy('created_at', $order)
+        ->paginate());
     }
 
     /**
@@ -63,9 +62,7 @@ class BlogController extends Controller
      */
     public function show(string $id)
     {
-        $blog = Blog::find($id);
-        
-        return response(BlogShowResource::make($blog), 200);
+        return response(BlogShowResource::make(Blog::find($id)), 200);
     }
 
     /**
@@ -98,5 +95,11 @@ class BlogController extends Controller
         ];
 
         return response($response, 200);
+    }
+
+    public function getUserBlogs(string $id) {
+        $blogs = Blog::where('user_id', $id)->paginate(5);
+
+        return BlogResource::collection($blogs);
     }
 }

@@ -25,7 +25,7 @@ class BlogFactory extends Factory
             'body' => fake()->realText($maxNbChars = 4000),
             'created_at' => $datetime,
             'updated_at' => $datetime,
-            'image' => '1682314544.jpg'
+            'image' => '1682405997.jpg'
         ];
     }
 }
