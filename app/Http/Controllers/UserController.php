@@ -16,7 +16,7 @@ class UserController extends Controller
         $user->update($request->all());
 
         $response = [
-            'message' => 'User details updated'
+            'user' => $user
         ];
 
         return response($response, 200);

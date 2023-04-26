@@ -29,9 +29,9 @@ class BlogController extends Controller
     public function search(Request $request) {
         $order = $request->query('order') ? $request->query('order') : 'desc';
         $search_term = '%' . $request->query('term') . '%';
-        return BlogResource::collection(Blog::where('title', 'LIKE', $search_term)
+        return BlogResource::collection(Blog::where('title', 'ILIKE', $search_term)
         ->orderBy('created_at', $order)
-        ->paginate());
+        ->paginate(5));
     }
 
     /**
@@ -98,7 +98,7 @@ class BlogController extends Controller
     }
 
     public function getUserBlogs(string $id) {
-        $blogs = Blog::where('user_id', $id)->paginate(5);
+        $blogs = Blog::where('user_id', $id)->orderBy('created_at', 'desc')->paginate(5);
 
         return BlogResource::collection($blogs);
     }
