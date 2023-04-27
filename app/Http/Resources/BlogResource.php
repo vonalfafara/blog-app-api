@@ -24,6 +24,7 @@ class BlogResource extends JsonResource
             'subtitle' => $this->subtitle,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'comments' => $this->comments->count()
         ];
     }
 }

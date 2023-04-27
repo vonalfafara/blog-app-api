@@ -23,7 +23,10 @@ class BlogShowResource extends JsonResource
             'body' => $this->body,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'user' => $this->user,
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name
+            ],
             'comments' => CommentResource::collection($this->comments)
         ];
     }
